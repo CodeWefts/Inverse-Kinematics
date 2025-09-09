@@ -1,24 +1,26 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Linq; // For list parameter
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class JointManager : MonoBehaviour
+public class SpawnManager : MonoBehaviour
 {
-
-    [SerializeField] public int _segments = 3;
-
-    [SerializeField] public GameObject joint; // TODO : Add joint at each bone's start and end.
+    [SerializeField] public int segments = 3;
+    
+    // GAME OBJECT TODO : Create gameobject directly in code and not on the scene
+    [SerializeField] public GameObject joint; // TODO : Add joint to the end of the skeleton.
     [SerializeField] public GameObject bone;
-
+    [SerializeField] public GameObject target;
+    
     private Vector3 _initialJointPosition = new Vector3(0,0,0);
     private Vector3 _initialBonePosition = new Vector3(0,0,0);
-    
-    private List<GameObject> _bones = new List<GameObject>(); // TEST 
-    private List<GameObject> _joints = new List<GameObject>(); // TEST 
 
+    public List<GameObject> _bones = new List<GameObject>();
+    public List<GameObject> _joints = new List<GameObject>();
     private void SpawnBones()
     {
-        for (int j = 0; j < _segments; j++)
+        for (int j = 0; j < segments; j++)
         {
             GameObject newJoint = Instantiate(joint, _initialJointPosition, Quaternion.identity);
             _joints.Add(newJoint);
@@ -42,7 +44,5 @@ public class JointManager : MonoBehaviour
     void Start()
     {
         SpawnBones();
-        
     }
-    
 }
