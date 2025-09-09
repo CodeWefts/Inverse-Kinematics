@@ -20,11 +20,7 @@ public class AlgoChoice : MonoBehaviour
                 if (ccd == null)
                 {
                     ccd = gameObject.GetComponent<CyclicCoordinateDescentAlgorithm>();
-                    ccd.HI();
-                }
-                else
-                {
-                    ccd.HI();
+                    ccd.CCDAlgorithm();
                 }
                 
                 break;

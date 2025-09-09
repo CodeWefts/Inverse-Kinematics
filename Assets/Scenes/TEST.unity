@@ -763,8 +763,9 @@ GameObject:
   - component: {fileID: 1942509807}
   - component: {fileID: 1942509806}
   - component: {fileID: 1942509808}
+  - component: {fileID: 1942509809}
   m_Layer: 0
-  m_Name: JointManager
+  m_Name: IKManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -782,14 +783,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a29219ef63f897458e1257ad4074a75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  algorithm: 0
-  ccd: {fileID: 0}
-  segments: 9
+  segments: 4
   joint: {fileID: 1646935919}
   bone: {fileID: 454480179}
   target: {fileID: 880723943}
-  _bones: []
-  _joints: []
+  bones: []
+  joints: []
 --- !u!4 &1942509807
 Transform:
   m_ObjectHideFlags: 0
@@ -817,9 +816,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd53d55d60a401a4ea42203a0fe522d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: {fileID: 880723943}
-  LastJoint: {fileID: 0}
-  Pivot: {fileID: 0}
+  nbrIteration: 0
+  _target: {fileID: 0}
+  spawnManager: {fileID: 0}
+--- !u!114 &1942509809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942509805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 847d2e0eb88217243933af4d1f04d0b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  algorithm: 0
+  ccd: {fileID: 1942509808}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
