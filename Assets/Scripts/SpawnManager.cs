@@ -37,6 +37,12 @@ public class SpawnManager : MonoBehaviour
             
             _initialJointPosition = _initialBonePosition + new Vector3(0, 1, 0); // TODO : Change int raw value.
         }
+        
+        GameObject lastJoint = Instantiate(joint, _initialJointPosition, Quaternion.identity);
+        joints.Add(lastJoint);
+        int index = joints.Count - 1;
+        joints.Last().transform.SetParent(joints[index-1].transform);
+        
     }
     
     void Start()
