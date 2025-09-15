@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MathLib : MonoBehaviour
@@ -58,7 +59,26 @@ public class QuaternionLib
             crossAxis.x * invS,
             crossAxis.y * invS,
             crossAxis.z * invS,
-            s * 0.5f)); // TODO : change this line
+            s * 0.5f));
+    }
+
+    public static QuaternionLib Lerp(QuaternionLib a, QuaternionLib b, float t)
+    {
+        QuaternionLib result = new QuaternionLib(a.x + (b.x - a.x ) * t, 
+                                                 a.y + (b.y - a.y ) * t, 
+                                                 a.z + (b.z - a.z ) * t, 
+                                              a.w + (b.w - a.w ) * t);
+        return Normalize(result);
+    }
+
+    public static Quaternion ApplyRotation(QuaternionLib a, Quaternion b)
+    {
+        Quaternion result = new Quaternion(
+            a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y,
+            a.w * b.y - a.x * b.z + a.y * b.w + a.z * b.x,
+            a.w * b.z + a.x * b.y - a.y * b.x + a.z * b.w,
+            a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z);
+        return result;
     }
     
 }
