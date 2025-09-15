@@ -11,6 +11,7 @@ public class AlgoChoice : MonoBehaviour
         
     [SerializeField] public Algorithm algorithm;
     [SerializeField] public CyclicCoordinateDescentAlgorithm ccd;
+    [SerializeField] public JacobianAlgorithm jacobian;
 
     void Start()
     {
@@ -25,6 +26,11 @@ public class AlgoChoice : MonoBehaviour
                 
                 break;
             case Algorithm.Jacobian:
+                if (jacobian == null)
+                {
+                    jacobian = gameObject.GetComponent<JacobianAlgorithm>();
+                    jacobian.JacobianAlgorithmFunc();
+                }
                 break;
             case Algorithm.FABRIK:
                 break;
