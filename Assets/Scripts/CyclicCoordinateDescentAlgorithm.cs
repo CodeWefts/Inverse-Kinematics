@@ -15,16 +15,24 @@ public class CyclicCoordinateDescentAlgorithm : MonoBehaviour
     [Header("Pivot to Target")] private Vector3 _pivotToTarget = new Vector3(0, 0, 0);
     [Header("Pivot to LastJoint")]private Vector3 _pivotToEE = new  Vector3(0, 0, 0);
     
-    
+    // Other scripts
+    // -------------
     private SpawnManager _spawnManager;
+    private QuaternionLib quat;
+    
     void Start()
     {
         if (_spawnManager == null)
         {
             _spawnManager = gameObject.GetComponent<SpawnManager>();
         }
-
         _lastJoint = _spawnManager.joints.Last();
+        if (quat == null)
+        {
+            quat = gameObject.GetComponent<QuaternionLib>();
+        }
+
+        
 
     }
     
@@ -49,10 +57,7 @@ public class CyclicCoordinateDescentAlgorithm : MonoBehaviour
         return a.x * b.x + a.y * b.y;
     }
     
-    private float DotProduct(Vector3 a, Vector3 b, Vector3 axis)
-    {
-        return a.x * b.x + a.y * b.y +  a.z * b.z;
-    }
+    
 
     private float NormVector(Vector3 a)
     {
@@ -113,6 +118,7 @@ public class CyclicCoordinateDescentAlgorithm : MonoBehaviour
     
     #endregion
     
+    
     public void CCDAlgorithm()
     {
         for (int j = 0; j < nbrIteration; j++)
@@ -128,6 +134,14 @@ public class CyclicCoordinateDescentAlgorithm : MonoBehaviour
                 // Rotation calc
                 // TODO : Build my own "FromToRotation" and "Lerp" Functions
                 Quaternion pivotToEE = Quaternion.FromToRotation(_pivotToEE, _pivotToTarget);
+                Debug.Log("Quaternion values : " + pivotToEE + " and index : " + i);
+                
+                // TEST values
+                QuaternionLib test = QuaternionLib.FromToRotation(_pivotToEE, _pivotToTarget);
+                Debug.Log("MY OWN Quaternion values : (" + test.x + ", " +test.y+ ", " + test.z+ ", "+ test.w + ") and index : " + i);
+                
+                
+                
                 Quaternion rotRestrained = Quaternion.Lerp(Quaternion.identity, pivotToEE, 0.1f);
                 
                 
