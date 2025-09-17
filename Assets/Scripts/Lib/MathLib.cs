@@ -1,5 +1,4 @@
-using System;
-using Unity.VisualScripting;
+using NUnit.Framework;
 using UnityEngine;
 
 public class MathLib : MonoBehaviour
@@ -7,6 +6,16 @@ public class MathLib : MonoBehaviour
     public static float DotProduct(Vector3 a, Vector3 b)
     {
         return a.x * b.x + a.y * b.y +  a.z * b.z;
+    }
+    
+    public static void ClampAngle(ref float angle, float min, float max)
+    {
+        Debug.Assert(min <= max, "Minimum must be less than Maximum. ( ClampAngle )");
+        
+        if (angle > max)
+            angle = max;
+        else if (angle < min)
+            angle = min;
     }
 }
 
@@ -27,9 +36,9 @@ public class QuaternionLib
     public static QuaternionLib Normalize(QuaternionLib q)
     {
         float magnitude = Mathf.Sqrt(q.x*q.x + q.y*q.y + q.z*q.z + q.w*q.w );
-        return new QuaternionLib(q.x/magnitude,  
-                                q.y/magnitude, 
-                                q.z/magnitude, 
+        return new QuaternionLib(  q.x/magnitude,  
+                                   q.y/magnitude, 
+                                   q.z/magnitude, 
                                 q.w/magnitude);
     }
 
@@ -61,6 +70,33 @@ public class QuaternionLib
             crossAxis.z * invS,
             s * 0.5f));
     }
+    
+    public static Quaternion ClampRotationHinge(QuaternionLib q, float min, float max, Vector3 axis)
+    {
+        float angle = 0f;
+        
+        axis = axis.normalized;
+
+        if (axis == Vector3.up) // Axis Y
+        {
+            angle = 2f * Mathf.Rad2Deg *  Mathf.Atan(q.y/q.w);
+        }
+        else if (axis == Vector3.right) // Axis X
+        {
+            angle = 2f * Mathf.Rad2Deg *  Mathf.Atan(q.x/q.w);
+            Debug.Log(angle);
+        }
+        else if (axis == Vector3.forward) // Axis Z
+        {
+            angle = 2f * Mathf.Rad2Deg *  Mathf.Atan(q.z/q.w);
+        }
+
+        //MathLib.ClampAngle(ref angle, min, max);
+        angle = Mathf.Clamp(angle, min, max);
+        // TODO : Recreate this func
+        Quaternion t = Quaternion.AngleAxis(angle, axis);
+        return t;
+    }
 
     public static QuaternionLib Lerp(QuaternionLib a, QuaternionLib b, float t)
     {
@@ -74,9 +110,9 @@ public class QuaternionLib
     public static Quaternion ApplyRotation(QuaternionLib a, Quaternion b)
     {
         Quaternion result = new Quaternion(
-            a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y,
-            a.w * b.y - a.x * b.z + a.y * b.w + a.z * b.x,
-            a.w * b.z + a.x * b.y - a.y * b.x + a.z * b.w,
+               a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y,
+               a.w * b.y - a.x * b.z + a.y * b.w + a.z * b.x,
+               a.w * b.z + a.x * b.y - a.y * b.x + a.z * b.w,
             a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z);
         return result;
     }
