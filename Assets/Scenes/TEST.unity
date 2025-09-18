@@ -784,7 +784,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a29219ef63f897458e1257ad4074a75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  segments: 1000
+  segments: 5
   joint: {fileID: 1646935919}
   bone: {fileID: 454480179}
   target: {fileID: 880723943}

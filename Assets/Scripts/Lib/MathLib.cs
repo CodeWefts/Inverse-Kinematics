@@ -71,31 +71,14 @@ public class QuaternionLib
             s * 0.5f));
     }
     
-    public static Quaternion ClampRotationHinge(QuaternionLib q, float min, float max, Vector3 axis)
+    public static Quaternion ClampRotationHinge(Quaternion rotation, float min, float max, Vector3 axis, Vector3 initialForward)
     {
-        float angle = 0f;
-        
-        axis = axis.normalized;
-
-        if (axis == Vector3.up) // Axis Y
-        {
-            angle = 2f * Mathf.Rad2Deg *  Mathf.Atan(q.y/q.w);
-        }
-        else if (axis == Vector3.right) // Axis X
-        {
-            angle = 2f * Mathf.Rad2Deg *  Mathf.Atan(q.x/q.w);
-            Debug.Log(angle);
-        }
-        else if (axis == Vector3.forward) // Axis Z
-        {
-            angle = 2f * Mathf.Rad2Deg *  Mathf.Atan(q.z/q.w);
-        }
-
-        //MathLib.ClampAngle(ref angle, min, max);
-        angle = Mathf.Clamp(angle, min, max);
-        // TODO : Recreate this func
-        Quaternion t = Quaternion.AngleAxis(angle, axis);
-        return t;
+       Vector3 rotatedForward = rotation * initialForward;
+       
+       float angle = Vector3.SignedAngle(initialForward, rotatedForward, axis);
+       
+       angle = Mathf.Clamp(angle, min, max);
+       return Quaternion.AngleAxis(angle, axis);
     }
 
     public static QuaternionLib Lerp(QuaternionLib a, QuaternionLib b, float t)

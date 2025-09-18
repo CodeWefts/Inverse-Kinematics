@@ -58,7 +58,10 @@ public class CyclicCoordinateDescentAlgorithm : MonoBehaviour
         QuaternionLib test = RotationBetween();
         
         Quaternion testRotation = QuaternionLib.ApplyRotation(test,  _pivot.transform.rotation);
-        _pivot.transform.rotation = testRotation;
+
+        Quaternion finalRotation = QuaternionLib.ClampRotationHinge(testRotation, -90f, 90f, _pivot.transform.forward, _pivot.transform.up);
+        
+        _pivot.transform.rotation = finalRotation;
 
         i--;
 
@@ -74,14 +77,19 @@ public class CyclicCoordinateDescentAlgorithm : MonoBehaviour
             
     }
     
-    public bool IsCloseToTarget()
+    public bool IsCloseToTarget(float tolerance = 0.1f)
     {
+        /*
         if ((int)_lastJoint.transform.position.x == (int)target.transform.position.x 
             && 
             (int)_lastJoint.transform.position.y == (int)target.transform.position.y 
             &&
             (int)_lastJoint.transform.position.z == (int)target.transform.position.z )
             return true;
-        return false;
+        return false;*/
+        
+        //test
+        float distance = Vector3.Distance(_lastJoint.transform.position, target.transform.position);
+        return distance <= tolerance;
     }
 }
