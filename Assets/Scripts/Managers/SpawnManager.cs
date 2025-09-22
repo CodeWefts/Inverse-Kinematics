@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using System.Linq; // For list parameter
+using System.Linq;
+using UnityEditor.Embree; // For list parameter
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
@@ -16,6 +17,11 @@ public class SpawnManager : MonoBehaviour
 
     public List<GameObject> bones = new List<GameObject>();
     public List<GameObject> joints = new List<GameObject>();
+
+    public Dictionary<Transform, List<Transform>> test =  new Dictionary<Transform, List<Transform>>();
+    
+    [SerializeField] GameObject model;
+    
     
     
     private void SpawnBones()
@@ -67,6 +73,39 @@ public class SpawnManager : MonoBehaviour
     
     void Start()
     {
-        SpawnBones();
+        if(!model)
+            SpawnBones();
+        else
+        {
+            PrintAllChildren(model.transform, test);
+            PrintAllBones(test);
+        }
+
+    }
+
+    void PrintAllBones(Dictionary<Transform, List<Transform>> boneDict)
+    {
+        foreach (Transform t in test.Keys)
+        {
+            Debug.Log(t.name + " : " + boneDict[t].Count);
+            
+        }
+    }
+
+    void PrintAllChildren(Transform parent, Dictionary<Transform, List<Transform>> children = null)
+    {
+        if (parent.childCount == 0)
+        {
+            children[parent] = new List<Transform>();
+            return;
+        }
+
+        List<Transform> childrenList = new List<Transform>();
+        foreach (Transform child in parent)
+        {
+            childrenList.Add(child);
+            PrintAllChildren(child, children);
+        }
+        children[parent] = childrenList;
     }
 }

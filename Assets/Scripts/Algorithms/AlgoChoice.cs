@@ -72,6 +72,7 @@ public class AlgoChoice : MonoBehaviour
 
     void Update()
     {
+        /*
         switch (typeOfIteration)
         {
             case TypeOfIteration.AUTO:
@@ -107,6 +108,6 @@ public class AlgoChoice : MonoBehaviour
                 
         }
         if (reset)
-            Reset();
+            Reset();*/
     }
 }

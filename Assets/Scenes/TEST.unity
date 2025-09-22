@@ -752,6 +752,91 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1713414071
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 2c0c610d28332ed4d894bac0711c52b9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.3691726
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2c0c610d28332ed4d894bac0711c52b9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2c0c610d28332ed4d894bac0711c52b9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 11.4249
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2c0c610d28332ed4d894bac0711c52b9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2c0c610d28332ed4d894bac0711c52b9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2c0c610d28332ed4d894bac0711c52b9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2c0c610d28332ed4d894bac0711c52b9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2c0c610d28332ed4d894bac0711c52b9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2c0c610d28332ed4d894bac0711c52b9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2c0c610d28332ed4d894bac0711c52b9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2c0c610d28332ed4d894bac0711c52b9, type: 3}
+      propertyPath: m_Name
+      value: HypoCarno
+      objectReference: {fileID: 0}
+    - target: {fileID: 6671036553172603671, guid: 2c0c610d28332ed4d894bac0711c52b9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.93567556
+      objectReference: {fileID: 0}
+    - target: {fileID: 6671036553172603671, guid: 2c0c610d28332ed4d894bac0711c52b9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.27990416
+      objectReference: {fileID: 0}
+    - target: {fileID: 6671036553172603671, guid: 2c0c610d28332ed4d894bac0711c52b9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.052323353
+      objectReference: {fileID: 0}
+    - target: {fileID: 6671036553172603671, guid: 2c0c610d28332ed4d894bac0711c52b9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.20839207
+      objectReference: {fileID: 0}
+    - target: {fileID: 6671036553172603671, guid: 2c0c610d28332ed4d894bac0711c52b9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 30.132
+      objectReference: {fileID: 0}
+    - target: {fileID: 6671036553172603671, guid: 2c0c610d28332ed4d894bac0711c52b9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 14.365
+      objectReference: {fileID: 0}
+    - target: {fileID: 6671036553172603671, guid: 2c0c610d28332ed4d894bac0711c52b9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 28.998
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2c0c610d28332ed4d894bac0711c52b9, type: 3}
 --- !u!1 &1942509805
 GameObject:
   m_ObjectHideFlags: 0
@@ -863,3 +948,4 @@ SceneRoots:
   - {fileID: 1646935923}
   - {fileID: 454480183}
   - {fileID: 880723947}
+  - {fileID: 1713414071}

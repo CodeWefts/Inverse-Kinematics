@@ -22,11 +22,12 @@ public class CyclicCoordinateDescentAlgorithm : MonoBehaviour
     
     void Start()
     {
+        /*
         if (_spawnManager == null)
         {
             _spawnManager = gameObject.GetComponent<SpawnManager>();
         }
-        _lastJoint = _spawnManager.joints.Last();
+        _lastJoint = _spawnManager.joints.Last();*/
         
     }
 
@@ -41,10 +42,6 @@ public class CyclicCoordinateDescentAlgorithm : MonoBehaviour
         // --------
         QuaternionLib fromToRot = QuaternionLib.FromToRotation(_pivotToEE, _pivotToTarget);
         
-        //Debug.Log("FromToRotation : ("+ fromToRot.x + ", " +  fromToRot.y + ", " + fromToRot.z + ", " +  fromToRot.w + ")");
-        
-        // TODO : Clamp rotation by axis
-        
         return fromToRot;
     }
     
@@ -54,17 +51,16 @@ public class CyclicCoordinateDescentAlgorithm : MonoBehaviour
             i = _spawnManager.segments;
         
         _pivot = _spawnManager.joints[i];
-        
-        QuaternionLib test = RotationBetween();
-        
-        Quaternion testRotation = QuaternionLib.ApplyRotation(test,  _pivot.transform.rotation);
 
+        QuaternionLib test = RotationBetween();
+
+        // TODO : Rework those lines
+        Quaternion testRotation = QuaternionLib.ApplyRotation(test,  _pivot.transform.rotation);
         Quaternion finalRotation = QuaternionLib.ClampRotationHinge(testRotation, -90f, 90f, _pivot.transform.forward, _pivot.transform.up);
         
         _pivot.transform.rotation = finalRotation;
 
         i--;
-
     }
     
     public void Iteration()
@@ -79,15 +75,6 @@ public class CyclicCoordinateDescentAlgorithm : MonoBehaviour
     
     public bool IsCloseToTarget(float tolerance = 0.1f)
     {
-        /*
-        if ((int)_lastJoint.transform.position.x == (int)target.transform.position.x 
-            && 
-            (int)_lastJoint.transform.position.y == (int)target.transform.position.y 
-            &&
-            (int)_lastJoint.transform.position.z == (int)target.transform.position.z )
-            return true;
-        return false;*/
-        
         //test
         float distance = Vector3.Distance(_lastJoint.transform.position, target.transform.position);
         return distance <= tolerance;
