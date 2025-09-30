@@ -26,6 +26,7 @@ public class AlgoChoice : MonoBehaviour
     
     [SerializeField] public SpawnManager spawn;
 
+    /*
     void Start()
     {
         if(spawn == null)
@@ -57,7 +58,7 @@ public class AlgoChoice : MonoBehaviour
                 }
                 break;
         }
-    }
+    }*/
 
     private void Reset()
     {
@@ -69,10 +70,10 @@ public class AlgoChoice : MonoBehaviour
         ccd.i = -1;
         reset = false;
     }
-
+/*
     void Update()
     {
-        /*
+        
         switch (typeOfIteration)
         {
             case TypeOfIteration.AUTO:
@@ -108,6 +109,6 @@ public class AlgoChoice : MonoBehaviour
                 
         }
         if (reset)
-            Reset();*/
-    }
+            Reset();
+    }*/
 }

@@ -20,16 +20,15 @@ public class CyclicCoordinateDescentAlgorithm : MonoBehaviour
     // -------------
     private SpawnManager _spawnManager;
     
+    /*
     void Start()
     {
-        /*
         if (_spawnManager == null)
         {
             _spawnManager = gameObject.GetComponent<SpawnManager>();
         }
-        _lastJoint = _spawnManager.joints.Last();*/
-        
-    }
+        _lastJoint = _spawnManager.joints.Last();
+    }*/
 
     public QuaternionLib RotationBetween()
     {
@@ -56,9 +55,10 @@ public class CyclicCoordinateDescentAlgorithm : MonoBehaviour
 
         // TODO : Rework those lines
         Quaternion testRotation = QuaternionLib.ApplyRotation(test,  _pivot.transform.rotation);
-        Quaternion finalRotation = QuaternionLib.ClampRotationHinge(testRotation, -90f, 90f, _pivot.transform.forward, _pivot.transform.up);
+        Quaternion finalRotation = QuaternionLib.ClampRotationHinge(testRotation, -90f, 90f, _pivot.transform.forward,_pivot.transform.up);
         
         _pivot.transform.rotation = finalRotation;
+        //_pivot.transform.rotation = testRotation;
 
         i--;
     }

@@ -21,7 +21,7 @@ public class SpawnManager : MonoBehaviour
     public Dictionary<Transform, List<Transform>> test =  new Dictionary<Transform, List<Transform>>();
     
     [SerializeField] GameObject model;
-    
+    [SerializeField] bool IsRawModel = false;
     
     
     private void SpawnBones()
@@ -38,6 +38,7 @@ public class SpawnManager : MonoBehaviour
             joints.Add(newJoint);
             
             newJoint.gameObject.GetComponent<Renderer>().material.color = new Color(0,0,blue_nuances);
+            newJoint.gameObject.AddComponent<JointManager>();
             
             // -------------------  BONES  -------------------------
             // _____________________________________________________
@@ -73,8 +74,12 @@ public class SpawnManager : MonoBehaviour
     
     void Start()
     {
-        if(!model)
+        if(!model && !IsRawModel)
             SpawnBones();
+        else if (IsRawModel && model)
+        {
+            ReadAllJointsAndBones(model.transform);
+        }
         else
         {
             PrintAllChildren(model.transform, test);
@@ -83,6 +88,36 @@ public class SpawnManager : MonoBehaviour
 
     }
 
+    [SerializeField] private int _nbrOfJoints = 0;
+    [SerializeField] private int _nbrOfBones = 0;
+    private void ReadAllJointsAndBones(Transform parent)
+    {
+        foreach (Transform child in parent)
+        {
+            Debug.Log("name : "+child.name);
+            if (child.name == "Joint")
+            {
+                _nbrOfJoints++;
+                joints.Add(child.gameObject);
+                
+                Debug.Log("count : " + child.childCount );
+                
+                if (child.childCount == 0)
+                    return;
+                else
+                    ReadAllJointsAndBones(child);
+            }
+            
+            if(child.name == "Bone")
+            {
+                _nbrOfBones++;
+                bones.Add(child.gameObject);
+            }
+
+            
+        }
+    }
+    
     void PrintAllBones(Dictionary<Transform, List<Transform>> boneDict)
     {
         foreach (Transform t in test.Keys)
