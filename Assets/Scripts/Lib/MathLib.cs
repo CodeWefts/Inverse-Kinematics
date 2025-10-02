@@ -8,14 +8,11 @@ public class MathLib : MonoBehaviour
         return a.x * b.x + a.y * b.y +  a.z * b.z;
     }
     
-    public static void ClampAngle(ref float angle, float min, float max)
+    public static float ClampAngle(float angle, float min, float max)
     {
-        Debug.Assert(min <= max, "Minimum must be less than Maximum. ( ClampAngle )");
-        
-        if (angle > max)
-            angle = max;
-        else if (angle < min)
-            angle = min;
+        if (angle > 180f)
+            angle -= 360f;
+        return Mathf.Clamp(angle, min, max);
     }
 }
 
@@ -71,14 +68,23 @@ public class QuaternionLib
             s * 0.5f));
     }
     
-    public static Quaternion ClampRotationHinge(Quaternion rotation, float min, float max, Vector3 axis, Vector3 initialForward)
+    public static Quaternion ClampRotationHinge(Quaternion rotation, Vector3 clampMin, Vector3 clampMax,Vector3 axisX, Vector3 axisY, Vector3 axisZ, Vector3 initialForward)
     {
-       Vector3 rotatedForward = rotation * initialForward;
-       
-       float angle = Vector3.SignedAngle(initialForward, rotatedForward, axis);
-       
-       angle = Mathf.Clamp(angle, min, max);
-       return Quaternion.AngleAxis(angle, axis);
+        Vector3 rotatedForward = rotation * initialForward;
+
+        float angleX = Vector3.SignedAngle(initialForward, rotatedForward, axisX);
+        float angleY = Vector3.SignedAngle(initialForward, rotatedForward, axisY);
+        float angleZ = Vector3.SignedAngle(initialForward, rotatedForward, axisZ);
+
+        angleX = Mathf.Clamp(angleX, clampMin.x, clampMax.x);
+        angleY = Mathf.Clamp(angleY, clampMin.y, clampMax.y);
+        angleZ = Mathf.Clamp(angleZ, clampMin.z, clampMax.z);
+
+        Quaternion rotX = Quaternion.AngleAxis(angleX, axisX);
+        Quaternion rotY = Quaternion.AngleAxis(angleY, axisY);
+        Quaternion rotZ = Quaternion.AngleAxis(angleZ, axisZ);
+
+        return rotX * rotY * rotZ;
     }
 
     public static QuaternionLib Lerp(QuaternionLib a, QuaternionLib b, float t)

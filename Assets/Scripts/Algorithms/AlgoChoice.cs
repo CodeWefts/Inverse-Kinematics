@@ -25,8 +25,9 @@ public class AlgoChoice : MonoBehaviour
     [SerializeField] public FabrikAlgorithm fabrik;
     
     [SerializeField] public SpawnManager spawn;
+    
 
-    /*
+    
     void Start()
     {
         if(spawn == null)
@@ -37,32 +38,32 @@ public class AlgoChoice : MonoBehaviour
             case Algorithm.CCD:
                 if (ccd == null)
                 {
+                    gameObject.AddComponent<CyclicCoordinateDescentAlgorithm>();
                     ccd = gameObject.GetComponent<CyclicCoordinateDescentAlgorithm>();
-                    ccd.CCDAlgorithm();
                 }
                 
                 break;
             case Algorithm.Jacobian:
                 if (jacobian == null)
                 {
+                    gameObject.AddComponent<JacobianAlgorithm>();
                     jacobian = gameObject.GetComponent<JacobianAlgorithm>();
-                    jacobian.JacobianAlgorithmFunc();
                 }
                 break;
             
             case Algorithm.FABRIK:
                 if (fabrik == null)
                 {
+                    gameObject.AddComponent<FabrikAlgorithm>();
                     fabrik = gameObject.GetComponent<FabrikAlgorithm>();
-                    fabrik.FabrikAlgorithmFunc();
                 }
                 break;
         }
-    }*/
+    }
 
     private void Reset()
     {
-        for (int j = 0; j < spawn.segments; j++)
+        for (int j = 0; j < spawn.joints.Count - 1; j++)
         {
             spawn.joints[j].transform.rotation = Quaternion.identity;
         }
@@ -70,7 +71,7 @@ public class AlgoChoice : MonoBehaviour
         ccd.i = -1;
         reset = false;
     }
-/*
+
     void Update()
     {
         
@@ -110,5 +111,5 @@ public class AlgoChoice : MonoBehaviour
         }
         if (reset)
             Reset();
-    }*/
+    }
 }

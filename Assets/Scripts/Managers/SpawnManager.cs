@@ -22,8 +22,7 @@ public class SpawnManager : MonoBehaviour
     
     [SerializeField] GameObject model;
     [SerializeField] bool IsRawModel = false;
-    
-    
+    [SerializeField] public bool ite = false;    
     private void SpawnBones()
     {
         float blue_nuances = 0f;
@@ -79,12 +78,12 @@ public class SpawnManager : MonoBehaviour
         else if (IsRawModel && model)
         {
             ReadAllJointsAndBones(model.transform);
-        }
+        }/*
         else
         {
             PrintAllChildren(model.transform, test);
             PrintAllBones(test);
-        }
+        }*/
 
     }
 
@@ -94,13 +93,11 @@ public class SpawnManager : MonoBehaviour
     {
         foreach (Transform child in parent)
         {
-            Debug.Log("name : "+child.name);
             if (child.name == "Joint")
             {
                 _nbrOfJoints++;
                 joints.Add(child.gameObject);
                 
-                Debug.Log("count : " + child.childCount );
                 
                 if (child.childCount == 0)
                     return;
@@ -113,11 +110,18 @@ public class SpawnManager : MonoBehaviour
                 _nbrOfBones++;
                 bones.Add(child.gameObject);
             }
+            
+            if(child.name == "EE")
+            {
+                joints.Add(child.gameObject);
+            }
 
             
         }
     }
     
+    // THIS IS A TEST FOR REAL MODELS
+    /*
     void PrintAllBones(Dictionary<Transform, List<Transform>> boneDict)
     {
         foreach (Transform t in test.Keys)
@@ -142,5 +146,5 @@ public class SpawnManager : MonoBehaviour
             PrintAllChildren(child, children);
         }
         children[parent] = childrenList;
-    }
+    }*/
 }
