@@ -920,7 +920,7 @@ MonoBehaviour:
   _nbrOfJoints: 0
   _nbrOfBones: 0
   model: {fileID: 450702439}
-  IsRawModel: 0
+  IsRawModel: 1
   ite: 0
 --- !u!4 &1942509807
 Transform:

@@ -61,7 +61,7 @@ public class CyclicCoordinateDescentAlgorithm : MonoBehaviour
         Vector3 axisX = _pivot.transform.right;
         Vector3 axisY = _pivot.transform.up;
         Vector3 axisZ = _pivot.transform.forward;
-        // TODO : Rework those lines
+        // TODO : Rework those lines : when target is out of clampMax value, the algorithm struggle with finding a correct rotation.
         Quaternion finalRotation = QuaternionLib.ClampRotationHinge(
             testRotation,
             jointt.clampMin,
