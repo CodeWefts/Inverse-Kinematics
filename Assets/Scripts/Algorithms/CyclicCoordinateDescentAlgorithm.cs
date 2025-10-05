@@ -9,7 +9,6 @@ public class CyclicCoordinateDescentAlgorithm : MonoBehaviour
     private GameObject _lastJoint; // The end-effector
     private GameObject _pivot; // The joint used for rotation
     
-
     [Header("Pivot to Target")] private Vector3 _pivotToTarget = new Vector3(0, 0, 0);
     [Header("Pivot to LastJoint")]private Vector3 _pivotToEE = new  Vector3(0, 0, 0);
     
@@ -18,7 +17,6 @@ public class CyclicCoordinateDescentAlgorithm : MonoBehaviour
     // Other scripts
     // -------------
     private SpawnManager _spawnManager;
-    public float threshold = 0.01f;
     
     void Start()
     {
@@ -85,11 +83,5 @@ public class CyclicCoordinateDescentAlgorithm : MonoBehaviour
             CCDAlgorithm();
             _spawnManager.ite = false;
         }
-    }
-    
-    public bool IsCloseToTarget()
-    {
-        float distance = Vector3.Distance(_lastJoint.transform.position, target.transform.position);
-        return distance <= threshold;
     }
 }

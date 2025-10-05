@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Linq;
 
 public class AlgoChoice : MonoBehaviour
 {
@@ -25,6 +26,8 @@ public class AlgoChoice : MonoBehaviour
     [SerializeField] public FabrikAlgorithm fabrik;
     
     [SerializeField] public SpawnManager spawn;
+
+	[SerializeField] public float threshold = 0.01f;
     
     void Start()
     {
@@ -70,6 +73,14 @@ public class AlgoChoice : MonoBehaviour
         reset = false;
     }
 
+	 public bool IsCloseToTarget()
+    {
+		GameObject _lastJoint = spawn.joints.Last();
+		GameObject target = spawn.target;
+        float distance = Vector3.Distance(_lastJoint.transform.position, target.transform.position);
+        return distance <= threshold;
+    }
+
     void Update()
     {
         switch (typeOfIteration)
@@ -78,7 +89,7 @@ public class AlgoChoice : MonoBehaviour
                 
                 if (algorithm == Algorithm.CCD)
                 {
-                    if(!ccd.IsCloseToTarget())
+                    if(!IsCloseToTarget())
                     {
                         ccd.CCDAlgorithm();
                     }
@@ -89,7 +100,10 @@ public class AlgoChoice : MonoBehaviour
                     
                 }
                 
-                else{}
+                else
+				{
+					jacobian.JacobianAlgorithmFunc();
+				}
                 
                 break;
             case TypeOfIteration.CLICK_TO_ACTIVATE:
