@@ -6,9 +6,8 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] public int segments = 3;
-    
-    // GAME OBJECT TODO : Create gameobject directly in code and not on the scene
-    [SerializeField] public GameObject joint; // TODO : Add joint to the end of the skeleton.
+
+    [SerializeField] public GameObject joint;
     [SerializeField] public GameObject bone;
     [SerializeField] public GameObject target;
     
@@ -18,11 +17,15 @@ public class SpawnManager : MonoBehaviour
     public List<GameObject> bones = new List<GameObject>();
     public List<GameObject> joints = new List<GameObject>();
 
+	[SerializeField] private int _nbrOfJoints = 0;
+    [SerializeField] private int _nbrOfBones = 0;
+
     public Dictionary<Transform, List<Transform>> test =  new Dictionary<Transform, List<Transform>>();
     
     [SerializeField] GameObject model;
     [SerializeField] bool IsRawModel = false;
     [SerializeField] public bool ite = false;    
+
     private void SpawnBones()
     {
         float blue_nuances = 0f;
@@ -38,7 +41,9 @@ public class SpawnManager : MonoBehaviour
             
             newJoint.gameObject.GetComponent<Renderer>().material.color = new Color(0,0,blue_nuances);
             newJoint.gameObject.AddComponent<JointManager>();
-            
+
+            JointManager jointManagerObject = newJoint.GetComponent<JointManager>();
+            jointManagerObject.clampMax = new Vector3(150,0,0); // TODO : CHANGE THOSE RAW VALUES 
             // -------------------  BONES  -------------------------
             // _____________________________________________________
 
@@ -67,28 +72,18 @@ public class SpawnManager : MonoBehaviour
         joints.Add(lastJoint);
         int index = joints.Count - 1;
         joints.Last().transform.SetParent(joints[index-1].transform);
-        
-        
     }
     
     void Start()
     {
-        if(!model && !IsRawModel)
+        if(!IsRawModel)
             SpawnBones();
         else if (IsRawModel && model)
         {
             ReadAllJointsAndBones(model.transform);
-        }/*
-        else
-        {
-            PrintAllChildren(model.transform, test);
-            PrintAllBones(test);
-        }*/
-
+        }
     }
-
-    [SerializeField] private int _nbrOfJoints = 0;
-    [SerializeField] private int _nbrOfBones = 0;
+    
     private void ReadAllJointsAndBones(Transform parent)
     {
         foreach (Transform child in parent)
@@ -114,37 +109,7 @@ public class SpawnManager : MonoBehaviour
             if(child.name == "EE")
             {
                 joints.Add(child.gameObject);
-            }
-
-            
+            }            
         }
     }
-    
-    // THIS IS A TEST FOR REAL MODELS
-    /*
-    void PrintAllBones(Dictionary<Transform, List<Transform>> boneDict)
-    {
-        foreach (Transform t in test.Keys)
-        {
-            Debug.Log(t.name + " : " + boneDict[t].Count);
-            
-        }
-    }
-
-    void PrintAllChildren(Transform parent, Dictionary<Transform, List<Transform>> children = null)
-    {
-        if (parent.childCount == 0)
-        {
-            children[parent] = new List<Transform>();
-            return;
-        }
-
-        List<Transform> childrenList = new List<Transform>();
-        foreach (Transform child in parent)
-        {
-            childrenList.Add(child);
-            PrintAllChildren(child, children);
-        }
-        children[parent] = childrenList;
-    }*/
 }

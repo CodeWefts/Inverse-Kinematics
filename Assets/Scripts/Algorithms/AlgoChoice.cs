@@ -26,8 +26,6 @@ public class AlgoChoice : MonoBehaviour
     
     [SerializeField] public SpawnManager spawn;
     
-
-    
     void Start()
     {
         if(spawn == null)
@@ -41,8 +39,8 @@ public class AlgoChoice : MonoBehaviour
                     gameObject.AddComponent<CyclicCoordinateDescentAlgorithm>();
                     ccd = gameObject.GetComponent<CyclicCoordinateDescentAlgorithm>();
                 }
-                
                 break;
+
             case Algorithm.Jacobian:
                 if (jacobian == null)
                 {
@@ -74,7 +72,6 @@ public class AlgoChoice : MonoBehaviour
 
     void Update()
     {
-        
         switch (typeOfIteration)
         {
             case TypeOfIteration.AUTO:
