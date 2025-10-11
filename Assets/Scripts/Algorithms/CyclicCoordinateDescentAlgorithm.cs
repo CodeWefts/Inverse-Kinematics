@@ -3,14 +3,8 @@ using UnityEngine;
 
 public class CyclicCoordinateDescentAlgorithm : MonoBehaviour
 {
-    private int nbrIteration;
-    private GameObject target;
-    
     private GameObject _lastJoint; // The end-effector
     private GameObject _pivot; // The joint used for rotation
-    
-    [Header("Pivot to Target")] private Vector3 _pivotToTarget = new Vector3(0, 0, 0);
-    [Header("Pivot to LastJoint")]private Vector3 _pivotToEE = new  Vector3(0, 0, 0);
     
     public int i = -1;
 
@@ -20,25 +14,25 @@ public class CyclicCoordinateDescentAlgorithm : MonoBehaviour
     
     void Start()
     {
+        Initialize();
+    }
+
+    private void Initialize()
+    {
         if (_spawnManager == null)
         {
             _spawnManager = GameObject.Find("IKManager").GetComponent<SpawnManager>();
         }
         
-        if (target == null)
-        {
-            target = _spawnManager.target;
-        }
-        
         _lastJoint = _spawnManager.joints.Last();
     }
 
-    public QuaternionLib RotationBetween()
+    private QuaternionLib RotationBetween()
     {
         // Vectors
         // -------
-        _pivotToEE = _lastJoint.transform.position - _pivot.transform.position;
-        _pivotToTarget = target.transform.position - _pivot.transform.position;
+        Vector3 _pivotToEE = _lastJoint.transform.position - _pivot.transform.position;
+        Vector3 _pivotToTarget = _spawnManager.target.transform.position - _pivot.transform.position;
                 
         // Rotation
         // --------
@@ -61,6 +55,7 @@ public class CyclicCoordinateDescentAlgorithm : MonoBehaviour
         Vector3 axisX = _pivot.transform.right;
         Vector3 axisY = _pivot.transform.up;
         Vector3 axisZ = _pivot.transform.forward;
+        
         // TODO : Rework those lines : when target is out of clampMax value, the algorithm struggle with finding a correct rotation.
         Quaternion finalRotation = QuaternionLib.ClampRotationHinge(
             testRotation,

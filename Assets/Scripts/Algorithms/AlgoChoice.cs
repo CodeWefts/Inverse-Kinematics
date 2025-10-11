@@ -97,7 +97,7 @@ public class AlgoChoice : MonoBehaviour
 
                 else if (algorithm == Algorithm.FABRIK)
                 {
-                    
+                    fabrik.Solve();
                 }
                 
                 else
