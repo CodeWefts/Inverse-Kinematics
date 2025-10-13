@@ -47,7 +47,6 @@ public class FabrikAlgorithm : MonoBehaviour
 
         if ((_spawnManager.target.transform.position - _spawnManager.joints[0].transform.position).sqrMagnitude > totalLength * totalLength)
         {
-            // wtf
             for (int i = 0; i < n - 1; i++)
             {
                 float r = Vector3.Distance(positions[i], _spawnManager.target.transform.position);
@@ -92,8 +91,7 @@ public class FabrikAlgorithm : MonoBehaviour
         for (int i = 0; i < n - 1; i++)
         {
             Vector3 dir = positions[i + 1] - positions[i];
-            _spawnManager.joints[i].transform.rotation = Quaternion.LookRotation(dir);
-            _spawnManager.joints[i].transform.position = positions[i];
+            _spawnManager.joints[i].transform.rotation = Quaternion.LookRotation(dir) * Quaternion.Euler(90, 0, 0);
         }
 
         _spawnManager.joints[n - 1].transform.position = positions[n - 1];

@@ -46,28 +46,33 @@ public class CyclicCoordinateDescentAlgorithm : MonoBehaviour
         if (i < 0)
             i = _spawnManager.joints.Count - 2;
 
+        Debug.Log("Joint . " + _spawnManager.joints[i].name);
         _pivot = _spawnManager.joints[i];
         JointManager jointt = _pivot.GetComponent<JointManager>();
         
         QuaternionLib fromToRot  = RotationBetween();
         Quaternion testRotation = QuaternionLib.ApplyRotation(fromToRot ,  _pivot.transform.rotation);
-
-        Vector3 axisX = _pivot.transform.right;
-        Vector3 axisY = _pivot.transform.up;
-        Vector3 axisZ = _pivot.transform.forward;
         
-        // TODO : Rework those lines : when target is out of clampMax value, the algorithm struggle with finding a correct rotation.
-        Quaternion finalRotation = QuaternionLib.ClampRotationHinge(
-            testRotation,
-            jointt.clampMin,
-            jointt.clampMax,
-            axisX,
-            axisY,
-            axisZ,
-            _pivot.transform.forward 
+        if (jointt.clampMin != Vector3.zero && jointt.clampMax != Vector3.zero)
+        {
+            Vector3 axisX = _pivot.transform.right;
+            Vector3 axisY = _pivot.transform.up;
+            Vector3 axisZ = _pivot.transform.forward;
+            Quaternion finalRotation = QuaternionLib.ClampRotationHinge(
+                testRotation,
+                jointt.clampMin,
+                jointt.clampMax,
+                axisX,
+                axisY,
+                axisZ,
+                _pivot.transform.forward 
             );
-
-        _pivot.transform.rotation = finalRotation;
+            
+            _pivot.transform.rotation = finalRotation;
+        }
+        
+        _pivot.transform.rotation = testRotation;
+        
         i--;
     }
     

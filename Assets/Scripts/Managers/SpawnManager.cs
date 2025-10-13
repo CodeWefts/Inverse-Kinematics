@@ -16,16 +16,21 @@ public class SpawnManager : MonoBehaviour
 
     public List<GameObject> bones = new List<GameObject>();
     public List<GameObject> joints = new List<GameObject>();
-
-	[SerializeField] private int _nbrOfJoints = 0;
-    [SerializeField] private int _nbrOfBones = 0;
-
-    public Dictionary<Transform, List<Transform>> test =  new Dictionary<Transform, List<Transform>>();
     
     [SerializeField] GameObject model;
     [SerializeField] bool IsRawModel = false;
     [SerializeField] public bool ite = false;    
 
+    
+    void Start()
+    {
+        if(!IsRawModel)
+            SpawnBones();
+        else if (IsRawModel && model)
+        {
+            ReadAllJointsAndBones(model.transform);
+        }
+    }
     private void SpawnBones()
     {
         float blue_nuances = 0f;
@@ -42,19 +47,17 @@ public class SpawnManager : MonoBehaviour
             newJoint.gameObject.GetComponent<Renderer>().material.color = new Color(0,0,blue_nuances);
             newJoint.gameObject.AddComponent<JointManager>();
 
-            JointManager jointManagerObject = newJoint.GetComponent<JointManager>();
-            jointManagerObject.clampMax = new Vector3(150,0,0); // TODO : CHANGE THOSE RAW VALUES 
             // -------------------  BONES  -------------------------
             // _____________________________________________________
 
-            _initialBonePosition.y = _initialJointPosition.y + 1f; // TODO : Change int raw value to the scale of joint's gameobject
+            _initialBonePosition.y = _initialJointPosition.y + 1f;
             
             GameObject newBone = Instantiate(bone, _initialBonePosition,  Quaternion.identity);
             bones.Add(newBone);
 
             newBone.gameObject.GetComponent<Renderer>().material.color = new Color(0,0,blue_nuances);
 
-            _initialJointPosition = _initialBonePosition + new Vector3(0, 1, 0); // TODO : Change int raw value.
+            _initialJointPosition = _initialBonePosition + new Vector3(0, 1, 0);
             
             // -------------------  RELATION  ----------------------
             // _____________________________________________________
@@ -74,23 +77,12 @@ public class SpawnManager : MonoBehaviour
         joints.Last().transform.SetParent(joints[index-1].transform);
     }
     
-    void Start()
-    {
-        if(!IsRawModel)
-            SpawnBones();
-        else if (IsRawModel && model)
-        {
-            ReadAllJointsAndBones(model.transform);
-        }
-    }
-    
     private void ReadAllJointsAndBones(Transform parent)
     {
         foreach (Transform child in parent)
         {
             if (child.name == "Joint")
             {
-                _nbrOfJoints++;
                 joints.Add(child.gameObject);
                 
                 
@@ -102,7 +94,6 @@ public class SpawnManager : MonoBehaviour
             
             if(child.name == "Bone")
             {
-                _nbrOfBones++;
                 bones.Add(child.gameObject);
             }
             

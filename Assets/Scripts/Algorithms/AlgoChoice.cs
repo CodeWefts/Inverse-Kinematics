@@ -31,9 +31,19 @@ public class AlgoChoice : MonoBehaviour
     
     void Start()
     {
+        Init();
+    }
+
+    void Update()
+    {
+        Solvers();
+    }
+    
+    private void Init()
+    {
         if(spawn == null)
             spawn = gameObject.GetComponent<SpawnManager>();
-        
+
         switch (algorithm)
         {
             case Algorithm.CCD:
@@ -62,26 +72,7 @@ public class AlgoChoice : MonoBehaviour
         }
     }
 
-    private void Reset()
-    {
-        for (int j = 0; j < spawn.joints.Count - 1; j++)
-        {
-            spawn.joints[j].transform.rotation = Quaternion.identity;
-        }
-
-        ccd.i = -1;
-        reset = false;
-    }
-
-	 public bool IsCloseToTarget()
-    {
-		GameObject _lastJoint = spawn.joints.Last();
-		GameObject target = spawn.target;
-        float distance = Vector3.Distance(_lastJoint.transform.position, target.transform.position);
-        return distance <= threshold;
-    }
-
-    void Update()
+    private void Solvers()
     {
         switch (typeOfIteration)
         {
@@ -101,9 +92,9 @@ public class AlgoChoice : MonoBehaviour
                 }
                 
                 else
-				{
-					jacobian.JacobianAlgorithmFunc();
-				}
+                {
+                    jacobian.JacobianAlgorithmFunc();
+                }
                 
                 break;
             case TypeOfIteration.CLICK_TO_ACTIVATE:
@@ -118,9 +109,28 @@ public class AlgoChoice : MonoBehaviour
                 
                 else{}
                 break;
-                
         }
+
         if (reset)
             Reset();
+    }
+
+    private void Reset()
+    {
+        for (int j = 0; j < spawn.joints.Count - 1; j++)
+        {
+            spawn.joints[j].transform.rotation = Quaternion.identity;
+        }
+
+        ccd.i = -1;
+        reset = false;
+    }
+
+	 public bool IsCloseToTarget()
+    {
+		GameObject _lastJoint = spawn.joints.Last();
+		GameObject target = spawn.target;
+        float distance = Vector3.Distance(_lastJoint.transform.position, target.transform.position);
+        return distance <= threshold;
     }
 }
