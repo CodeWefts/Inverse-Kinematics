@@ -16,6 +16,7 @@ public class SpawnManager : MonoBehaviour
 
     public List<GameObject> bones = new List<GameObject>();
     public List<GameObject> joints = new List<GameObject>();
+    public List<Quaternion> initialRotations = new List<Quaternion>();
     
     [SerializeField] GameObject model;
     [SerializeField] bool IsRawModel = false;
@@ -43,6 +44,8 @@ public class SpawnManager : MonoBehaviour
             
             GameObject newJoint = Instantiate(joint, _initialJointPosition, Quaternion.identity);
             joints.Add(newJoint);
+            Quaternion saveRot = newJoint.transform.rotation;
+            initialRotations.Add(saveRot);
             
             newJoint.gameObject.GetComponent<Renderer>().material.color = new Color(0,0,blue_nuances);
             newJoint.gameObject.AddComponent<JointManager>();
@@ -84,7 +87,8 @@ public class SpawnManager : MonoBehaviour
             if (child.name == "Joint")
             {
                 joints.Add(child.gameObject);
-                
+                Quaternion saveRot = child.gameObject.transform.rotation;
+                initialRotations.Add(saveRot);
                 
                 if (child.childCount == 0)
                     return;

@@ -10,8 +10,8 @@ public class FabrikAlgorithm : MonoBehaviour
     // Other scripts
     // -------------
     private SpawnManager _spawnManager;
-    
-    void Start()
+
+    private void Start()
     {
         Initialize();
     }
@@ -22,7 +22,7 @@ public class FabrikAlgorithm : MonoBehaviour
         {
             _spawnManager = GameObject.Find("IKManager").GetComponent<SpawnManager>();
         }
-        
+
         int nbrJoints = _spawnManager.joints.Count;
         lengths = new float[nbrJoints - 1];
         positions = new Vector3[nbrJoints];
@@ -41,7 +41,7 @@ public class FabrikAlgorithm : MonoBehaviour
             return;
 
         int n = _spawnManager.joints.Count;
-        
+
         for (int i = 0; i < n; i++)
             positions[i] = _spawnManager.joints[i].transform.position;
 
@@ -60,7 +60,7 @@ public class FabrikAlgorithm : MonoBehaviour
             float distToTarget = Vector3.Distance(positions[n - 1], _spawnManager.target.transform.position);
             int iter = 0;
 
-            while (distToTarget > threshold && iter < 10) // TODO: REWORK THIS LINE
+            while (distToTarget > threshold && iter < 10)
             {
                 // BACKWARD REACHING
                 // -----------------
