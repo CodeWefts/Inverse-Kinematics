@@ -70,6 +70,8 @@ The class also stores :
 - **joints** , **bones** , **initialRotations** lists for use by IK solvers.
 - A flag **ite** for debugging step-based CCD iterations.
 
+![SpawnScreens](Assets/Screen_Shots/Spawn_IK1.png)
+![SpawnScreens](Assets/Screen_Shots/SpawnIK.png)
 
 ### Algo Choice
 
