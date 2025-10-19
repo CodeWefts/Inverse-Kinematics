@@ -70,8 +70,8 @@ The class also stores :
 - **joints** , **bones** , **initialRotations** lists for use by IK solvers.
 - A flag **ite** for debugging step-based CCD iterations.
 
-![SpawnScreens](Assets/Screen_Shots/Spawn_IK1.png)
-![SpawnScreens](Assets/Screen_Shots/SpawnIK.png)
+![SpawnScreens](Assets/Screens_Shots/Spawn_IK1.png)    
+![SpawnScreens](Assets/Screens_Shots/SpawnIK.png)
 
 ### Algo Choice
 
@@ -82,6 +82,10 @@ The central controller that manages solver selection and iteration behavior.
 - Includes : 
   - **Reset** function to restore initial joint rotations.
   - **IsCloseToTarget()** to determine convergence within a threshold.
+
+![AlgoScreens](Assets/Screens_Shots/algo_IK_Iteration.png)    
+![AlgoScreens](Assets/Screens_Shots/algo_IK_Algorithm.png)    
+
 
 ### JointManager
 
@@ -128,6 +132,10 @@ Core features:
 - Iteratively processes joints in reverse order until reaching the base joint.
 
 Supports a debug mode through **Iteration()**, allowing per-step visualization controlled by **SpawnManager.ite**.
+
+![CCD](Assets/Screens_Shots/CCD_IK_JOINT.mp4)    
+![CCD](Assets/Screens_Shots/CCD_IK.mp4)    
+
 
 ### Fabrik Algorithm
 
