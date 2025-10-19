@@ -2,7 +2,7 @@
 
 ## Author
 
-**Morgane DERO** Master 1 Game Programmer at Isart Digital
+> **Morgane DERO** - Master 1 Game Programmer at Isart Digital
 
 ## Description 
 
@@ -48,7 +48,7 @@ Assets
 2. Open Unity (version 6)
 3. In Unity, open the scene > Assets/Scenes/TEST.unity
 
-## How to Use 
+## Usage and Code Overview
 
 Once in the scene, you'll find the **IKManager** GameObject.   
 
@@ -57,51 +57,132 @@ This object gives access to the main scripts controlling your experience :
 
 ### Spawn Manager
 
-- If you use the **Raw Model** prefab, make sure the **Is Raw Model** option is checked.
-- If unchecked, you can spawn a new model based on your **Segment** settings.
+- Generates joint and bone hierarchies procedurally or reads them from an existing model.
+- If you use the **Raw Model** prefab, make sure the **Is Raw Model** option is checked. It reads a hierarchy from a model.
+- If unchecked, you can spawn a procedural skeleton using your given **segment** value, and gameobjects references.
+
+Each joint receives :
+- A JointManager component to store rotation clamps.
+- A color gradient for visualization (only with a procedural spawn)
+- A parent-child structure defining joint and bone relations.
+
+The class also stores :
+- **joints** , **bones** , **initialRotations** lists for use by IK solvers.
+- A flag **ite** for debugging step-based CCD iterations.
+
 
 ### Algo Choice
 
-- Select the IK algorithm you wish to test : **CCD**, **Jacobian** or **FABRIK**.
-- Change the iteration type to : 
-  - **AUTO** for automatic iterations.
-  - **CLICK_TO_ACTIVATE** to step through each iteration manually.
-- During Play mode, you can **Reset** the model to its initial position and rotation any time.
-
-## Code
+The central controller that manages solver selection and iteration behavior.
+- Allows switching between **CCD** and **FABRIK** algorithms through the **Algorithm** enum.
+- Defines iteration type : **AUTO** (continuous solving every frame) or **CLICK_TO_ACTIVATE** (manual iteration).
+- Automatically attaches and initializes algorithm components as needed.
+- Includes : 
+  - **Reset** function to restore initial joint rotations.
+  - **IsCloseToTarget()** to determine convergence within a threshold.
 
 ### JointManager
 
-This script **manages joint rotations**    
+This script **manages joint rotation constraints** (clamp values)    
 > For example, in the human body, arm movement is naturally restricted by joint limits.
 
 - Vector3 clampMin : public
 - Vector3 clampMax : public
 
+These are used by MathLib.QuaternionLib.ClampRotation() to ensure physically plausible motion.
+
 ### MathLib
 
-This script is my personal mathematic tool box.
+Provides essential mathematical tools for both CCD and FABRIK algorithms.
+
+Features:
+
+- **DotProduct**, **NormalizeAngle**, and **RotationBetween** functions for geometric calculations.
+
+- Nested **QuaternionLib** class implementing:
+
+  - **FromToRotation()** – builds a quaternion from two direction vectors.
+
+  - **ApplyRotation()** – combines two quaternions (custom multiplication).
+
+  - **ClampRotation()** – limits Euler angles of a Transform based on min/max values.
+
+  - **Normalize()** – ensures quaternions remain unit-length.
+
+This library abstracts low-level quaternion math, making it easier to maintain and extend.
 
 ### Cyclic Coordinate Descent Algorithm
 
-(Coming soon: explanation, screenshots and usage tips!)
+Implements **CCD** (**Cyclic Coordinate Descent**), a joint-by-joint iterative rotation solver.
+
+Core features:
+
+- Each iteration rotates one joint (**_pivot**) to align the end-effector with the target.
+
+- Uses **MathLib.RotationBetween()** to compute the necessary quaternion rotation.
+
+- Applies rotation using **QuaternionLib.ApplyRotation()** and clamps it with **ClampRotation()**.
+
+- Iteratively processes joints in reverse order until reaching the base joint.
+
+Supports a debug mode through **Iteration()**, allowing per-step visualization controlled by **SpawnManager.ite**.
 
 ### Fabrik Algorithm
 
-(Coming soon: explanation, screenshots and usage tips!)
+Implements **FABRIK** (**Forward And Backward Reaching Inverse Kinematics**), a geometric solver operating on joint positions.
 
-### Jacobian Algorithm
+Algorithm stages:
 
-(Coming soon: explanation, screenshots and usage tips!)
+1. **Initialization**: Computes segment lengths between joints.
+
+2. **Backward Reaching**: Starts from the end-effector toward the base, aligning each joint towards the target.
+
+3. **Forward Reaching**: Moves joints from base to end-effector, maintaining fixed segment lengths.
+
+4. **Rotation update**: Rotates each joint to align with the repositioned bones.
+
+Key parameters:
+
+- **threshold**: distance to target before stopping.
+
+- **max iterations**: capped at 10 by default for stability.
+
+
+## How It All Fits Together
+
+1. **SpawnManager** creates a robotic arm or bone chain.
+
+2. Each joint gets a **JointManager** defining its reachable rotation range.
+
+3. **AlgoChoice** initializes the chosen solver (CCD or FABRIK).
+
+4. Depending on **TypeOfIteration**, either:
+
+   - Solvers run automatically each frame (**AUTO**), or
+
+   - One step is executed manually (**CLICK_TO_ACTIVATE**).
+
+5. **MathLib** ensures accurate vector math, quaternion rotations, and clamped results.
+
+## Future Improvements and what else I wanted to do
+
+- Add **per-joint** weighting for smoother CCD motion.
+- Visualize **rotation limits** in editor gizmos.
+- Include **runtime/in-game target tracking** (moving targets)
+- Add **constraints** to the FABRIK algorithm.
+- Add **collisions**.
 
 ## Organisation 
 
 ### Tools & Workflow used
 
+> This section summarizes the tools and workflow used to complete the project efficiently.
+
 - **Google Calendar** to **plan my work time** due to the lack of hours at school. 
 - **Unity 6** as the **Game Engine**.
 - **Sticky Notes** (windows) for **issues/tasks to do**.
 - **Rider** as my IDE in **C#**
+- **GitHub** for commits and version tracking
 
 ## Interesting Links
 - **CCD understanding given by our teacher** :    
